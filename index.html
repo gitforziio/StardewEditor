@@ -221,28 +221,28 @@
                             <h4>{{location.name}}</h4>
                             <div v-if="location.characters">
                                 <h5>characters</h5>
-                                <div class="obj obj-npc" v-for="npc in location.characters.NPC"><p><span>【{{npc["@attributes"]?npc["@attributes"]["p3:type"]:npc.name}}】</span><span>【{{npc.Position.X}}】</span><span>【{{npc.Position.Y}}】</span><!-- <span>【{{npc}}】</span> --></p></div>
+                                <div class="obj obj-npc" v-for="npc in location.characters.NPC"><p><span>【{{npc["@attributes"]?npc["@attributes"]["p3:type"]:npc.name}}】</span><span>【位于：（{{npc.Position.X}}, {{npc.Position.Y}}）】</span><!-- <span>【{{npc}}】</span> --></p></div>
                             </div>
                             <div v-if="location.objects">
                                 <h5>objects</h5>
-                                <div class="obj obj-obj" v-for="item in location.objects.item">
-                                    <p><span>【{{item.value.Object["@attributes"]?item.value.Object["@attributes"]["p3:type"]:item.value.Object.name}}】</span><span>【{{item.key.Vector2.X}}】</span><span>【{{item.key.Vector2.Y}}】</span><!-- <span>【{{item}}】</span> --></p>
+                                <div class="obj obj-obj" v-for="item in location.objects.item" v-if="item.value">
+                                    <p><span>【{{item.value.Object["@attributes"]?item.value.Object["@attributes"]["p3:type"]:item.value.Object.name}}】</span><span>【位于：（{{item.key.Vector2.X}}, {{item.key.Vector2.Y}}）】</span><!-- <span>【{{item}}】</span> --></p>
                                     <p v-if="item.value.Object.items"><span v-for="it in item.value.Object.items.Item" v-if="it.DisplayName">{{it.DisplayName}}；</span></p>
                                 </div>
                             </div>
                             <div v-if="location.largeTerrainFeatures">
                                 <h5>largeTerrainFeatures</h5>
-                                <div class="obj obj-bush" v-for="ftr in location.largeTerrainFeatures.LargeTerrainFeature"><p><span>【{{ftr["@attributes"]["p3:type"]}}】</span><span>【{{ftr.tilePosition.X}}】</span><span>【{{ftr.tilePosition.Y}}】</span><!-- <span>【{{ftr}}】</span> --><span>【{{ftr.size}}】</span></p></div>
+                                <div class="obj obj-bush" v-for="ftr in location.largeTerrainFeatures.LargeTerrainFeature"><p><span>【{{ftr["@attributes"]["p3:type"]}}】</span><span>【位于：（{{ftr.tilePosition.X}}, {{ftr.tilePosition.Y}}）】</span><!-- <span>【{{ftr}}】</span> --><span>【大小：{{ftr.size}}】</span></p></div>
                             </div>
                             <div v-if="location.terrainFeatures">
                                 <h5>terrainFeatures</h5>
                                 <div class="obj obj-terr" v-for="ftr in location.terrainFeatures.item">
-                                    <p><span>【{{ftr.value.TerrainFeature["@attributes"]["p3:type"]}}】</span><span>【{{ftr.key.Vector2.X}}】</span><span>【{{ftr.key.Vector2.Y}}】</span><!-- <span>【{{ftr}}】</span> --></p>
+                                    <p><span>【{{ftr.value.TerrainFeature["@attributes"]["p3:type"]}}】</span><span>【位于：（{{ftr.key.Vector2.X}}, {{ftr.key.Vector2.Y}}）】</span><!-- <span>【{{ftr}}】</span> --></p>
                                 </div>
                             </div>
                             <div v-if="location.buildings">
                                 <h5>buildings</h5>
-                                <div class="obj obj-bud" v-for="bud in location.buildings.Building"><p><span>【{{bud["@attributes"]?bud["@attributes"]["p3:type"]:bud.buildingType}}】</span><span>【{{bud.tileX}}】</span><span>【{{bud.tileY}}】</span><!-- <span>【{{bud}}】</span> --><span>【{{bud.tilesWide}}】</span><span>【{{bud.tilesHigh}}】</span></p></div>
+                                <div class="obj obj-bud" v-for="bud in location.buildings.Building"><p><span>【{{bud["@attributes"]?bud["@attributes"]["p3:type"]:bud.buildingType}}】</span><span>【位于：（{{bud.tileX}}, {{bud.tileY}}）】</span><!-- <span>【{{bud}}】</span> --><span>【尺寸：（{{bud.tilesWide}}, {{bud.tilesHigh}}）】</span></p></div>
                             </div>
                         </div>
                     </div>
