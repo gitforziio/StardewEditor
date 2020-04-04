@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- 上一条代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame. -->
+    <!-- https://blog.csdn.net/oJingZhiYuan12/article/details/88015130 -->
+    <!-- 不过现在都什么年代了，IE我们就别考虑了吧，哈哈哈。 -->
+
+    <title>StardewEditor</title>
+
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="css/style.css" rel="stylesheet" type="text/css"> -->
+    <!-- <link href="cxn.css" rel="stylesheet" type="text/css"> -->
+    <style type="text/css">
+        body{background: #eee;}
+        .bodywrap{min-height: 100vh;}
+        .container.page{background: #fff;}
+        .span-nav-desc{font-size: 0.6em;}
+        .hidden{display: none;}
+        /*#footer{padding-bottom: 5rem;}*/
+
+        /*#box-editing{max-height: 80vh; overflow: auto;}*/
+
+        .card-wrap{background: #fafafa; border: 1px solid #eee; margin: 1rem 0;}
+        .btn_stc_wrap{margin: 0 0 1rem 0;}
+        .textarea-editing,.xml-wrap{margin: 1rem 0;}
+        .xml-area-wrap{background: #fff; /*border-bottom: 1px solid #eee;*/}
+        .cxn-ctrol>.col>*{margin: 0.5rem 0; min-height: calc(1.5em + .5rem + 2px);}
+        .cxn-ctrol.selected{background: #ff0}
+
+        #page-ctrl{background: #fafafa;border: 1px solid #343a40; border-radius: 6px;}
+        #page-ctrl>.container>.row>.col>*{margin: 0.25rem 0;}
+        .outputbox{font-size: 10px;}
+
+
+        div.thing-item, div.thing-event, div.thing-hit {
+            margin: 0.5em;
+            padding: 0.5em;
+            border-radius: 0.2rem;
+            border: 1px solid #ddd;
+        }
+
+        div.thing-item {
+            margin: 1.5em 0.5em;
+        }
+
+        div.thing-hit {
+            background: #fafafa;
+        }
+
+        div.thing-hit > div {
+            padding: 0.25em;
+        }
+
+        div.thing-hit > div > p {
+            margin: 0;
+        }
+
+        .corr-hit {
+            color: green;
+        }
+        .corr-error {
+            color: red;
+        }
+        .corr-seem {
+            color: blue;
+        }
+        .corr-seem_error {
+            color: orange;
+        }
+        .corr-except {
+            color: gray;
+        }
+
+
+        span.type{
+            margin: 0 1em 0 0;
+            font-weight: bolder;
+        }
+        span.trigger, span.argument{
+            display: inline;
+            margin: 0 0.5rem;
+            padding: 0.1rem 0.25rem;
+            border-radius: 0.2rem;
+        }
+        span.trigger{
+            background: #fafafa;
+            border: 0.5px solid #aaa;
+            color: #6060E0;
+        }
+        span.argument{
+            background: #fafafa;
+            border: 0.5px solid #aaa;
+        }
+        span.argument.highlighted{
+            background: #fffea4;
+            border: 0.5px dotted #ddd;
+        }
+        span.argument[data-role]:before {
+            content: '' attr(data-role);
+            margin: 0 0.25rem 0 0;
+            /*padding: 0.1rem 0.25rem;*/
+            border-radius: 0.2rem;
+            display: inline;
+            /*background: #AFDDDC;*/
+            color: #aaa;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        div.obj {
+            margin: 0 0.5rem;
+            padding: 0.1rem 0.25rem;
+            border-radius: 0.2rem;
+            border: 0.5px solid #aaa;
+        }
+
+
+
+
+
+
+
+    </style>
+
+
+</head>
+
+<body>
+
+<div class="bodywrap" id="bodywrap">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">StardewEditor</a><!-- 
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#the_navbar_toggler" aria-controls="the_navbar_toggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="the_navbar_toggler">
+        </div> -->
+    </nav>
+
+    <div class="container my-5 page hiddent" id="page-import"><div class="container py-2">
+        <div class="row">
+            <div class="col">
+                <form name="file-form" class="container">
+                    <div class="row" id="filePicker">
+                        <label for="file-input" class="col-md-2 my-2 col-form-label text-md-right">数据文件：</label>
+                        <div class="col-md-8 my-2">
+                            <input type="file" class="form-control" name="file-input" id="file-input" name="file" multiple="multiple" />
+                        </div>
+                        <div class="col-md-2 my-2">
+                            <button type="button" name="do_import" id="do_import" class="btn btn-primary">导入</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col">
+                <div class="something">
+    <button id="button" aria-describedby="tooltip" class="btn btn-sm btn-primary">My button</button>
+    <div id="tooltip" role="tooltip">
+      My tooltip
+      <div id="arrow" data-popper-arrow></div>
+    </div>
+                </div>
+            </div>
+        </div> -->
+    </div></div>
+
+    <div class="container my-5 page hidden" id="page-output"><div class="container py-5">
+        <div class="row">
+            <div class="col">
+                <div id="output"></div>
+            </div>
+        </div>
+    </div></div>
+
+    <!-- <div class="container my-2 page hiddent fixed-bottom" id="page-ctrl"><div class="container">
+        <div class="row">
+            <div class="col col-3 col-md-2">
+                <select class="custom-select custom-select-sm" name="select-class" id="select-class" v-model="selected_class">
+                    <option v-for="cls in event_classes">{{cls}}</option>
+                </select>
+            </div>
+            <div class="col col-3 col-md-2">
+                <select class="custom-select custom-select-sm" name="select-type" id="select-type" v-model="selected_type">
+                    <option v-for="typ in event_types">{{typ}}</option>
+                </select>
+            </div>
+            <div class="col col-3 col-md-2">
+                <select class="custom-select custom-select-sm" name="select-role" id="select-role" v-model="selected_role">
+                    <option v-for="role in event_roles">{{role}}</option>
+                </select>
+            </div>
+        </div>
+    </div></div> -->
+
+    <!-- <div class="container my-5 page hiddent" id="page-editing"><div class="container py-5"><div id="box-editing">
+        <the_data v-for="Z in Zs" :key="Z.id" :Z="Z" :hit_list_list="hit_list_list"></the_data>
+    </div></div></div> -->
+
+    <div class="container my-5 page" id="page-main"><div class="container py-5">
+        <div class="row">
+            <div class="col">
+                <div id="game_location_s" v-if="'locations' in save_game">
+                    <div class="game_location" v-for="location in save_game.locations.GameLocation">
+                        <div v-if="location.isFarm=='true'">
+                            <h4>{{location.name}}</h4>
+                            <div v-if="location.characters">
+                                <h5>characters</h5>
+                                <div class="obj obj-npc" v-for="npc in location.characters.NPC"><p><span>【{{npc["@attributes"]?npc["@attributes"]["p3:type"]:npc.name}}】</span><span>【{{npc.Position.X}}】</span><span>【{{npc.Position.Y}}】</span><!-- <span>【{{npc}}】</span> --></p></div>
+                            </div>
+                            <div v-if="location.objects">
+                                <h5>objects</h5>
+                                <div class="obj obj-obj" v-for="item in location.objects.item">
+                                    <p><span>【{{item.value.Object["@attributes"]?item.value.Object["@attributes"]["p3:type"]:item.value.Object.name}}】</span><span>【{{item.key.Vector2.X}}】</span><span>【{{item.key.Vector2.Y}}】</span><!-- <span>【{{item}}】</span> --></p>
+                                    <p v-if="item.value.Object.items"><span v-for="it in item.value.Object.items.Item" v-if="it.DisplayName">{{it.DisplayName}}；</span></p>
+                                </div>
+                            </div>
+                            <div v-if="location.largeTerrainFeatures">
+                                <h5>largeTerrainFeatures</h5>
+                                <div class="obj obj-bush" v-for="ftr in location.largeTerrainFeatures.LargeTerrainFeature"><p><span>【{{ftr["@attributes"]["p3:type"]}}】</span><span>【{{ftr.tilePosition.X}}】</span><span>【{{ftr.tilePosition.Y}}】</span><!-- <span>【{{ftr}}】</span> --><span>【{{ftr.size}}】</span></p></div>
+                            </div>
+                            <div v-if="location.terrainFeatures">
+                                <h5>terrainFeatures</h5>
+                                <div class="obj obj-terr" v-for="ftr in location.terrainFeatures.item">
+                                    <p><span>【{{ftr.value.TerrainFeature["@attributes"]["p3:type"]}}】</span><span>【{{ftr.key.Vector2.X}}】</span><span>【{{ftr.key.Vector2.Y}}】</span><!-- <span>【{{ftr}}】</span> --></p>
+                                </div>
+                            </div>
+                            <div v-if="location.buildings">
+                                <h5>buildings</h5>
+                                <div class="obj obj-bud" v-for="bud in location.buildings.Building"><p><span>【{{bud["@attributes"]?bud["@attributes"]["p3:type"]:bud.buildingType}}】</span><span>【{{bud.tileX}}】</span><span>【{{bud.tileY}}】</span><!-- <span>【{{bud}}】</span> --><span>【{{bud.tilesWide}}】</span><span>【{{bud.tilesHigh}}】</span></p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row hidden">
+            <div class="col">
+                <xml id="xml"></xml>
+            </div>
+        </div>
+    </div></div>
+
+</div>
+
+<footer class="pt-4 pb-5 bg-dark text-white" id="footer">
+    <div class="container text-center">
+        <p>Github: <a href="https://github.com/gitforziio/StardewEditor" target="_blank">@gitforziio/StardewEditor</a></p>
+    </div>
+</footer>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script> -->
+    <!-- <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script> -->
+    <!-- <script src="https://cdn.bootcss.com/popper.js/1.16.1/esm/popper.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/d3/5.12.0/d3.min.js"></script>
+
+    <script type="text/javascript" src="js/FileSaver.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <script type="text/javascript">
+        d3.select("#do_import").on('click',()=>{onImport();});
+    </script>
+
+</body>
+
+</html>
