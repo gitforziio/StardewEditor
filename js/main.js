@@ -3,6 +3,17 @@ var FILENAME = '';
 
 function pass() {}
 
+function onExport() {
+    let s_s = [];
+    s_s.push(`<?xml version="1.0" encoding="utf-8"?>`);
+    s_s.push(`${the_vue.save_node.outerHTML}`);
+    let xml=s_s.join('\n');
+    d3.select("#output *").remove();
+    d3.select("#output").append("textarea").attr("class","form-control outputbox").text(xml);
+    var file = new File([xml], (FILENAME?FILENAME:'thing.xml'), { type: "text/plain; charset=utf-8" });
+    saveAs(file);
+}
+
 function onImport() {
     const fileList = document.forms["file-form"]["file-input"].files;
     // console.log(fileList);

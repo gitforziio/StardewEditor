@@ -167,6 +167,11 @@
                 </form>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <button type="button" name="do_export" id="do_export" class="btn btn-primary">导出</button>
+            </div>
+        </div>
         <!-- <div class="row">
             <div class="col">
                 <div class="something">
@@ -275,6 +280,7 @@
 
     <script type="text/javascript">
         d3.select("#do_import").on('click',()=>{onImport();});
+        d3.select("#do_export").on('click',()=>{onExport();});
     </script>
 
 </body>
