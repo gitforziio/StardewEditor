@@ -169,7 +169,8 @@
         </div>
         <div class="row">
             <div class="col">
-                <button type="button" name="do_export" id="do_export" class="btn btn-primary">导出</button>
+                <button type="button" name="do_export" id="do_export" class="btn btn-primary">导出xml</button>
+                <button type="button" name="do_export_json" id="do_export_json" class="btn btn-primary">导出json</button>
             </div>
         </div>
         <!-- <div class="row">
@@ -281,6 +282,7 @@
     <script type="text/javascript">
         d3.select("#do_import").on('click',()=>{onImport();});
         d3.select("#do_export").on('click',()=>{onExport();});
+        d3.select("#do_export_json").on('click',()=>{onExportJSON();});
     </script>
 
 </body>

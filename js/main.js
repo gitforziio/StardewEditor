@@ -14,6 +14,12 @@ function onExport() {
     saveAs(file);
 }
 
+function onExportJSON() {
+    let jn = JSON.stringify(the_vue.save_game);
+    var file = new File([jn], ('thing.json'), { type: "text/plain; charset=utf-8" });
+    saveAs(file);
+}
+
 function onImport() {
     const fileList = document.forms["file-form"]["file-input"].files;
     // console.log(fileList);
